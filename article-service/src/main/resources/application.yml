@@ -1,0 +1,19 @@
+#与nacos配置中心通信的一系列设置
+spring:
+  application: #data-id: article-service-dev.yml
+    name: article-service
+  datasource: #JDBC连接配置
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/videoblog-video?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai
+    username: root
+    password: xjw12345
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+        username: nacos
+        password: nacos
+server:
+  port: 8100 #端口号
+mybatis:
+  config-location: classpath:/db/mybatis-config.xml #Mybatis配置文件
