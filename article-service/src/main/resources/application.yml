@@ -1,20 +1,48 @@
 #与nacos配置中心通信的一系列设置
 spring:
+  jackson:
+    default-property-inclusion: non_null
+
   application: #data-id: article-service-dev.yml
     name: article-service
+
   datasource: #JDBC连接配置
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/videoblog-video?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai
     username: root
     password: xjw12345
+
   cloud:
     nacos:
       discovery:
         server-addr: localhost:8848
         username: nacos
         password: nacos
+
+    sentinel:
+      transport:
+        dashboard: localhost:9100
+      datasource: #设置sentinel从nacos获取指定的流控规则
+        flow-ds:
+          nacos:
+            server-addr: localhost:8848
+            dataId: article-service-flow-rules
+            groupId: DEFAULT_GROUP
+            ruleType: flow
+            username: nacos
+            password: nacos
+        degrade-ds:
+          nacos:
+            server-addr: localhost:8848
+            dataId: article-service-degrade-rule
+            groupId: DEFAULT_GROUP
+            ruleType: degrade
+            username: nacos
+            password: nacos
+
 server:
   port: 8100 #端口号
+
 mybatis:
   config-location: classpath:/db/mybatis-config.xml #Mybatis配置文件
 
@@ -23,7 +51,16 @@ feign:
     config:
       default:
         loggerLevel: HEADERS
+  sentinel:
+    enabled: true
 
 video-service:
   ribbon:
     NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RandomRule
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+
