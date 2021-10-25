@@ -17,3 +17,13 @@ server:
   port: 8100 #端口号
 mybatis:
   config-location: classpath:/db/mybatis-config.xml #Mybatis配置文件
+
+feign:
+  client:
+    config:
+      default:
+        loggerLevel: HEADERS
+
+video-service:
+  ribbon:
+    NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RandomRule

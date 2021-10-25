@@ -1,12 +1,23 @@
 package com.xie.articleservice.entity;
 
 public class Video {
-//    确保类属性与JSON属性名与类型一致
     private Long videoId;
     private String sn;
     private Float videoLength;
     private String cover;
     private String videoUrl;
+
+    @Override
+    public String toString() {
+        return "Video{" +
+                "videoId=" + videoId +
+                ", sn='" + sn + '\'' +
+                ", videoLength=" + videoLength +
+                ", cover='" + cover + '\'' +
+                ", videoUrl='" + videoUrl + '\'' +
+                '}';
+    }
+
     public Long getVideoId() {
         return videoId;
     }

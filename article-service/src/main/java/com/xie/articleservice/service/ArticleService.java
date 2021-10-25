@@ -2,6 +2,7 @@ package com.xie.articleservice.service;
 
 import com.xie.articleservice.entity.Article;
 import com.xie.articleservice.entity.Video;
+import com.xie.articleservice.feignclient.VideoFeignClient;
 import com.xie.articleservice.mapper.ArticleMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -15,6 +16,8 @@ import java.util.List;
 public class ArticleService {
     @Resource
     private ArticleMapper articleMapper;
+    @Resource
+    private VideoFeignClient videoFeignClient;
 
     /**
      * 如果是VIP会员,可以查看所有普通文章与精选文章
@@ -24,6 +27,9 @@ public class ArticleService {
     public List<Article> list(){
 
         List<Article> list = articleMapper.list(1);
+        for(Article article : list){
+            article.setVideo(videoFeignClient.findByArticleId(article.getArticleId()).getData());
+        }
         return list;
     }
 }
